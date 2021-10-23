@@ -1,5 +1,9 @@
-const express = require('express')
+const express = require('express');
+const cors = require('cors');
 const app = express();
+app.use(cors());
+app.use(express.json());
+
 const port = process.env.PORT || 5000;
 app.get('/', (req, res) =>{
     res.send('Wow, I am learning node js')
@@ -16,9 +20,19 @@ const users =[
     {id:3, name: 'Shabnoor', email: 'Shabnoor@gmail.com'},
 ];
 
+
+//Getting data from Client site
+app.post('/users', (req, res) => {
+    const newUser = req.body;
+    newUser.id = users.length;
+    users.push(newUser);
+    res.json(newUser)
+})
+
+
 //Process - 1: All Users
 //URL: http://localhost:5000/users
-app.get('/users', (req, res) => {
+app .get('/users', (req, res) => {
     res.send(users)
 })
 
